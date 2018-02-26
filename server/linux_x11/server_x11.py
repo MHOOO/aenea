@@ -58,7 +58,7 @@ if __name__ == '__main__':
         required=False, help='If provided the server runs in the background.')
     parser.add_argument(
         '--input', action='store', type=str, default='xdotool',
-        choices=('xdotool', 'libxdo'), required=False, dest='impl',
+        choices=('xdotool', 'libxdo', 'none'), required=False, dest='impl',
         help='Aenea Server Input Method.  Providing the default, '
                     '"xdotool" will make the server shell out to the xdotool '
                     'program to emulate input. "libxdo" will cause the server '
@@ -72,6 +72,9 @@ if __name__ == '__main__':
     elif arguments.impl == 'libxdo':
         from server.linux_x11.x11_libxdo import XdoPlatformRpcs
         platform_rpcs = XdoPlatformRpcs()
+    elif arguments.impl == 'none':
+        from server.linux_x11.DummyPlatformRpc import DummyPlatformRpc
+        platform_rpcs = DummyPlatformRpc()
 
     if arguments.daemon:
         daemonize()
